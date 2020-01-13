@@ -25,13 +25,14 @@ export default class ProductList extends React.Component {
         <div className="row">
           {this.state.products.map(product => {
             return (
-              <ProductListItem
-                key={product.productId}
-                image={product.image}
-                name={product.name}
-                price={product.price}
-                shortDescription={product.shortDescription}
-              />
+              <div className="col-sm-12 col-md-6 col-lg-4" key={product.productId}>
+                <ProductListItem
+                  image={product.image}
+                  name={product.name}
+                  price={product.price}
+                  shortDescription={product.shortDescription}
+                />
+              </div>
             );
           })}
         </div>
