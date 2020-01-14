@@ -27,10 +27,12 @@ export default class ProductList extends React.Component {
             return (
               <div className="col-sm-12 col-md-6 col-lg-4" key={product.productId}>
                 <ProductListItem
+                  productId={product.productId}
                   image={product.image}
                   name={product.name}
                   price={product.price}
                   shortDescription={product.shortDescription}
+                  setView={this.props.setView}
                 />
               </div>
             );
