@@ -76,9 +76,8 @@ app.get('/api/cart', (req, res, next) => {
 
 app.post('/api/cart', (req, res, next) => {
   const { productId } = req.body;
-  const productIdAsInt = parseInt(productId);
 
-  if (productIdAsInt <= 0) {
+  if (parseInt(productId) <= 0) {
     return next(new ClientError('Product ID must be a positive integer', 400));
   }
 
@@ -91,13 +90,16 @@ app.post('/api/cart', (req, res, next) => {
 
   db.query(findProductPriceQuery, params)
     .then(result => {
-      const targetProductPrice = result.rows[0].price;
-      if (!targetProductPrice) {
-        return next(new ClientError('Cannot find requested product ID', 404));
+      if (result.rows.length === 0) {
+        throw new ClientError('Cannot find requested product ID', 404);
       }
+
+      const targetProductPrice = result.rows[0].price;
+
       if (req.session.cartId) {
         return { cartId: req.session.cartId, price: targetProductPrice };
       }
+
       const createNewCartQuery = `
         INSERT INTO "carts" ("cartId", "createdAt")
         VALUES (default, default)
