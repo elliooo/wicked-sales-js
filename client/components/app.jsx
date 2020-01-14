@@ -34,7 +34,5 @@ export default class App extends React.Component {
         }
       </div>
     );
-
-    // return <ProductDetails productId={6} />;
   }
 }

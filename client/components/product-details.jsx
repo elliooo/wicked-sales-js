@@ -10,7 +10,6 @@ export default class ProductDetails extends React.Component {
   }
 
   componentDidMount = () => {
-    // TODO: Replace with dynamic productId
     fetch(`/api/products/${this.props.viewParams.productId}`)
       .then(res => res.json())
       .then(data => this.setState({
