@@ -25,14 +25,14 @@ export default class App extends React.Component {
 
   render = () => {
     return (
-      <>
+      <div className="bg-light">
         <Header />
         {
           this.state.view.name === 'catalog'
             ? <ProductList setView={this.setView} />
             : <ProductDetails setView={this.setView} viewParams={this.state.view.params} />
         }
-      </>
+      </div>
     );
 
     // return <ProductDetails productId={6} />;
