@@ -147,6 +147,29 @@ app.post('/api/cart', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/orders', (req, res, next) => {
+  if (!req.session.cartId) {
+    return next(new ClientError('No order is currently available', 400));
+  }
+  const hasValidOrderParams = req.body.name && req.body.creditCard && req.body.shippingAddress;
+  if (!hasValidOrderParams) {
+    return next(new ClientError('Order details are not valid. Please provide a name, a credit card number, and a shipping address for your order.', 400));
+  }
+
+  const query = `
+     INSERT INTO "orders" ("cartId", "name", "creditCard", "shippingAddress")
+          VALUES ($1, $2, $3, $4)
+          RETURNING "orderId", "createdAt", "name", "creditCard", "shippingAddress";
+  `;
+  const params = [req.session.cartId, req.body.name, req.body.creditCard, req.body.shippingAddress];
+
+  db.query(query, params)
+    .then(result => {
+      delete req.session.cartId;
+      return res.status(201).json(result.rows[0]);
+    });
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
