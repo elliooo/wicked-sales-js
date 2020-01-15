@@ -10,7 +10,8 @@ export default class App extends React.Component {
       view: {
         name: 'catalog',
         params: {}
-      }
+      },
+      cart: []
     };
   }
 
@@ -23,14 +24,51 @@ export default class App extends React.Component {
     });
   }
 
+  getCartItems = () => {
+    fetch('/api/cart')
+      .then(res => res.json())
+      .then(cart => {
+        this.setState({
+          cart
+        });
+      });
+  }
+
+  addToCart = product => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const fetchConfig = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(product)
+    };
+    fetch('/api/cart', fetchConfig)
+      .then(res => res.json())
+      .then(newCartItem => {
+        const cart = [...this.state.cart];
+        cart.push(newCartItem);
+        this.setState({
+          cart
+        });
+      });
+  }
+
+  componentDidMount = () => {
+    this.getCartItems();
+  }
+
   render = () => {
+    const mainContainerStyle = {
+      width: '100vw',
+      height: '100vh'
+    };
     return (
-      <div className="bg-light">
-        <Header />
+      <div className="bg-light" style={mainContainerStyle}>
+        <Header cartItemCount={this.state.cart.length} />
         {
           this.state.view.name === 'catalog'
             ? <ProductList setView={this.setView} />
-            : <ProductDetails setView={this.setView} viewParams={this.state.view.params} />
+            : <ProductDetails setView={this.setView} viewParams={this.state.view.params} addToCart={this.addToCart} />
         }
       </div>
     );
