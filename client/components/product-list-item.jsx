@@ -22,7 +22,7 @@ const ProductListItem = props => {
       />
       <div className="card-body d-flex flex-column justify-content-around">
         <h5 className="card-title">{props.name}</h5>
-        <h6 className="card-subtitle text-muted">{'$' + (props.price / 1000).toFixed(2)}</h6>
+        <h6 className="card-subtitle text-muted">{'$' + (props.price / 100).toFixed(2)}</h6>
         <p className="card-text">{props.shortDescription}</p>
       </div>
     </div>

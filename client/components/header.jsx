@@ -8,7 +8,14 @@ const Header = props => {
           <h2><span className="fas fa-dollar-sign" /> Wicked Sales</h2>
         </div>
         <div className="col-2">
-          <h4>{props.cartItemCount} Items <span className="fas fa-shopping-cart"></span></h4>
+          <h4>
+            {props.cartItemCount} Items
+            <span
+              className="fas fa-shopping-cart"
+              style={{ cursor: 'pointer' }}
+              onClick={() => props.setView('cart', {})}>
+            </span>
+          </h4>
         </div>
       </div>
     </div>

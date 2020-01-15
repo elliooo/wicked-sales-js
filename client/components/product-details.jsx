@@ -35,7 +35,7 @@ export default class ProductDetails extends React.Component {
             <div className="col-10">
               <div className="card p-3">
                 <div
-                  className="text-muted bg-white"
+                  className="text-muted"
                   style={backToCatalogButtonStyle}
                   onClick={() => this.props.setView('catalog', {})}>
                   {'<'} Back to Catalog
