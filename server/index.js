@@ -159,7 +159,7 @@ app.post('/api/orders', (req, res, next) => {
   const query = `
      INSERT INTO "orders" ("cartId", "name", "creditCard", "shippingAddress")
           VALUES ($1, $2, $3, $4)
-          RETURNING "orderId", "cartId", "name", "creditCard", "shippingAddress";
+          RETURNING "orderId", "createdAt", "name", "creditCard", "shippingAddress";
   `;
   const params = [req.session.cartId, req.body.name, req.body.creditCard, req.body.shippingAddress];
 
