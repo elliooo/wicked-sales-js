@@ -7,7 +7,7 @@ const CartSummary = props => {
   };
 
   const cartItemPrices = props.cartItems.map(cartItem => cartItem.price);
-  const cartSubtotal = '$' + (cartItemPrices.reduce((subtotal, value) => subtotal + value) / 100).toFixed(2);
+  const cartSubtotal = props.cartItems.length === 0 ? (0).toFixed(2) : +(cartItemPrices.reduce((subtotal, value) => subtotal + value) / 100).toFixed(2);
 
   const cartElement = props.cartItems.length === 0
     ? <h1 className="d-flex justify-content-center">Your cart is empty.</h1>
@@ -25,11 +25,14 @@ const CartSummary = props => {
           </div>
           <div className="container-fluid">
             <div className="row">
-              <h1 className="col text-left p-0">My Cart</h1>
-              <h1 className="col text-right p-0">Subtotal: {cartSubtotal}</h1>
+              <h1 className="col p-0">My Cart</h1>
+              <h2 className="col text-right p-0">Subtotal: {'$' + cartSubtotal}</h2>
             </div>
           </div>
           { cartElement }
+          {props.cartItems.length === 0 ? null : <div className="checkout-button-container d-flex flex-row-reverse">
+            <button className="btn btn-primary" onClick={() => props.setView('checkout', {})}>Checkout</button>
+          </div>}
         </div>
       </div>
     </div>
